@@ -72,7 +72,7 @@ public class CheckOutTest {
     }
 
     @Test
-    public void testCheckOutNullLastName(){
+    public void testCheckOutNullLAstName(){
         //B1: Login
         login.LoginSuccess();
         //B2:Thêm 2 sản phẩm vào giỏ hàng
@@ -82,9 +82,9 @@ public class CheckOutTest {
         //B4: Click button CheckOut
         checkOut.clickButtonCheckout();
         //B5:Checkout: Your Information
-        checkOut.fillCheckOutDetails("John", "Doe", null);
+        checkOut.fillCheckOutDetails("John", null, "12345");
         WebElement error= checkOutPageUI.errorMess();
-        Assert.assertEquals(error.getText(), "Error: Postal Code is required");
+        Assert.assertEquals(error.getText(), "Error: Last Name is required");
     }
 
     @Test
@@ -98,9 +98,9 @@ public class CheckOutTest {
         //B4: Click button CheckOut
         checkOut.clickButtonCheckout();
         //B5:Checkout: Your Information
-        checkOut.fillCheckOutDetails("John", null, "12345");
+        checkOut.fillCheckOutDetails("John", "Doe", null);
         WebElement error= checkOutPageUI.errorMess();
-        Assert.assertEquals(error.getText(), "Error: Last Name is required");
+        Assert.assertEquals(error.getText(), "Error: Postal Code is required");
     }
     @AfterMethod
     public void tearDown() {
