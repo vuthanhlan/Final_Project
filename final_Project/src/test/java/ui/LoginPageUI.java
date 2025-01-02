@@ -21,4 +21,8 @@ public class LoginPageUI {
     public WebElement ErrorMess(){
         return driver.findElement(By.xpath("//h3[contains(text(),'Username')]"));
     }
+
+    public WebElement CompleteMessage(){
+        return driver.findElement(By.xpath("//span[contains(@class,'title')]"));
+    }
 }
