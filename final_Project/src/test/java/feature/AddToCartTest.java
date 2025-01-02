@@ -1,5 +1,7 @@
 package feature;
 
+import actions.AddToCartAction;
+import actions.LoginAction;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,7 +23,8 @@ public class AddToCartTest {
     WebDriver driver;
     WebDriverWait wait;
     AddToCartPageUI addToCartPageUI;
-    Actions actions;
+    LoginAction loginAction;
+    AddToCartAction addToCartAction;
     String excelFilePath="dataProducts.xlsx";
     List<String> expectedProductNames = new ArrayList<>();
     List<String> expectedProductPrices = new ArrayList<>();
@@ -30,7 +33,8 @@ public class AddToCartTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         addToCartPageUI = new AddToCartPageUI(driver);
-        actions = new Actions(driver);
+        loginAction = new LoginAction(driver);
+        addToCartAction = new AddToCartAction(driver);
         addToCartPageUI = new AddToCartPageUI(driver);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://www.saucedemo.com/");
@@ -43,14 +47,14 @@ public class AddToCartTest {
             String productPrice = addToCartPageUI.inventoryItemPrice(rowData.get("Products")).getText();
             expectedProductNames.add(productName);
             expectedProductPrices.add(productPrice);
-            actions.clickButtonAddToCart(rowData.get("Products"));
+            addToCartAction.clickButtonAddToCart(rowData.get("Products"));
         }
     }
 
     @Test
     public void addToCartTest() {
         //Login
-        actions.LoginSuccess();
+        loginAction.LoginSuccess();
 
         //Thêm 2 sản phẩm vào giỏ hàng
         addProduct();
@@ -58,7 +62,7 @@ public class AddToCartTest {
         Assert.assertEquals(addToCartPageUI.cartButton().getText(), "2","Cart badge is incorrect");
 
         //Click icon giỏ hàng
-        actions.clickButtonCart();
+        addToCartAction.clickButtonCart();
 
         //Verify số lượng sản phẩm trong giỏ hàng
         List<WebElement> cartItems= addToCartPageUI.cartItems();
@@ -77,13 +81,13 @@ public class AddToCartTest {
     @Test
     public void removeFromCartTest() {
         //B1: Login
-        actions.LoginSuccess();
+        loginAction.LoginSuccess();
         //B2:Thêm 2 sản phẩm vào giỏ hàng
         addProduct();
         //B3: Click icon giỏ hàng
-        actions.clickButtonCart();
+        addToCartAction.clickButtonCart();
        //B4: Xóa 1 sản phẩm
-        actions.removeProduct();
+        addToCartAction.removeProduct();
 
         //Verify số lượng sản phẩm còn lại trong giỏ hàng
         List<WebElement> cartItems= addToCartPageUI.cartItems();
